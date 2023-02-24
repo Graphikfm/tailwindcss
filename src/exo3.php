@@ -8,8 +8,17 @@
     </head>
     <body>
         <?php
+//        $year = 2023;
+        $year = $_GET['year'];
+//        var_dump(new \DateTime($year . '-01-01'));
+//        var_dump(new \DateTime('first day of january 2024'));
+    $begin = new DateTime('first day of january ' . $year);
+//        if ($year) {
+//            $begin = new DateTime($year.'-01-01');
+//        } else {
+//            $begin = new DateTime('first day of january');
+//        }
 
-        $begin = new DateTime('first day of january');
         $end = clone $begin;
         $end->modify('next year ');
 
@@ -43,25 +52,14 @@
             $day = $daysName[$date->format('w')];
             $month = $monthName[$date->format('n')];
             $dateOfDay = $date->format('d');
-            $year = $date->format('Y');
-            $urlyear = $_GET["year"] ?? null;
-            $urlMonth = $_GET["month"] ?? null;
-            if ($urlyear === null) {
-                $urlyear= $date->format('Y');
-            }
-            if ($urlMonth === null) {
-                $urlMonth = $monthName[$date->format('n')];
-            }
-
+            $y = $date->format('Y');
             if (in_array($date->format("l"), ["Saturday", "Sunday"],true)){
-                echo '<div class="font-bold text-gray-400">'.$day.' '.$dateOfDay.' '.$urlMonth.' '.$urlyear.'</div>';
+                echo '<div class="font-bold text-gray-400">'.$day.' '.$dateOfDay.' '.$month.' '.$y.'</div>';
             } else if ($today->format('w l d F Y') === $date->format('w l d F Y')) {
-                echo '<div class="font-bold text-red-500">'.$day.' '.$dateOfDay.' '.$urlMonth.' '.$urlyear.'</div>';
+                echo '<div class="font-bold text-red-500">'.$day.' '.$dateOfDay.' '.$month.' '.$y.'</div>';
             } else {
-                echo '<div class="font-bold text-green-800">'.$day.' '.$dateOfDay.' '.$urlMonth.' '.$urlyear.'</div>';
+                echo '<div class="font-bold text-green-800">'.$day.' '.$dateOfDay.' '.$month.' '.$y.'</div>';
             }
-
-
         }
 
             ?>

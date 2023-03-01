@@ -19,7 +19,7 @@ if (strlen($year) !== 4 && !is_numeric($year) && $year !==null ){
 }
 if ($year === null) {
     $year = (int) (new DateTime())->format('Y');
-    header('Location: /src/exo9.php?year='.$year);
+    header('Location: /src/exo8.php?year='.$year);
 }
 $year = (int) $_GET['year'];
 $begin = new DateTime('first day of january ' . $year);
@@ -29,7 +29,7 @@ $daterange = new DatePeriod($begin, new DateInterval('P1D'), $end);
 $today = new DateTime('today');
 $currentYear = $today->format('Y');
 if (($year > $currentYear+5) || ($year < $currentYear-5)) {
-    header('Location: /src/exo9.php?year='.$currentYear);
+    header('Location: /src/exo8.php?year='.$currentYear);
 }
 $daysNames = [
     0=>'Dimanche',
@@ -58,7 +58,7 @@ $monthsNames = [
 ?>
 <div class="global_container rounded-xl w-1/3 h-3/5 bg-gray-200 flex flex-col m-7 justify-center relative  shadow-md  p-7">
     <div class="nav w-full flex mb-2 justify-between gap-1">
-            <a class="container_btn_left text-white justify-center items-center items-center w-12 <?php if ($year === ($currentYear-5)) { ?> cursor-not-allowed bg-zinc-300 <?php } ?>  bg-gray-900 w-8 h-8 rounded-l-lg  top-0 left-0 flex" href="/src/exo9.php?year=<?php echo $year-1 ?>">
+            <a class="container_btn_left text-white justify-center items-center items-center w-12 <?php if ($year === ($currentYear-5)) { ?> cursor-not-allowed bg-zinc-300 <?php } ?>  bg-gray-900 w-8 h-8 rounded-l-lg  top-0 left-0 flex" href="/src/exo8.php?year=<?php echo $year-1 ?>">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                     <path d="M5 12l14 0"></path>
@@ -75,7 +75,7 @@ $monthsNames = [
             <div id="dropDownList" class="dropDownList absolute hidden w-full shadow-gray-500 shadow-md rounded-r-md top-8  ">
                 <?php
                 foreach ($allowedYears as $yearInDropDown) { ?>
-                    <a class=" listYear border border-gray-200 hover:border-green-500 hover:bg-green-500 hover:text-white  bg-white rounded-xs flex justify-center items-center <?php if($yearInDropDown == $currentYear ) { ?> text-red-500 <?php } ?> text-black" href="/src/exo9.php?year=<?php echo $yearInDropDown ?>"><?php echo $yearInDropDown ?></a>
+                    <a class=" listYear border border-gray-200 hover:border-green-500 hover:bg-green-500 hover:text-white  bg-white rounded-xs flex justify-center items-center <?php if($yearInDropDown == $currentYear ) { ?> text-red-500 <?php } ?> text-black" href="/src/exo8.php?year=<?php echo $yearInDropDown ?>"><?php echo $yearInDropDown ?></a>
                 <?php
                 } ?>
             </div>
@@ -86,7 +86,7 @@ $monthsNames = [
                 </svg>
             </div>
         </div>
-        <a class="container_btn_left bg-gray-900  <?php if ($year === ($currentYear+5)) { ?> cursor-not-allowed bg-zinc-300  <?php } ?> w-12 h-8 rounded-r-lg flex   top-0 right-0 justify-center items-center text-white " href="/src/exo9.php?year=<?php echo $year+1 ?>">
+        <a class="container_btn_left bg-gray-900  <?php if ($year === ($currentYear+5)) { ?> cursor-not-allowed bg-zinc-300  <?php } ?> w-12 h-8 rounded-r-lg flex   top-0 right-0 justify-center items-center text-white " href="/src/exo8.php?year=<?php echo $year+1 ?>">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                 <path d="M5 12l14 0"></path>

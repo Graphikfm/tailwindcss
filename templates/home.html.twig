@@ -1,0 +1,106 @@
+<html>
+<head>
+    <link href="/dist/output.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+</head>
+    <body class=" body h-screen w-screen justify-center items-center  text-center">
+        <div class="global_container h-full flex flex-col justify-center items-center rounded-xl relative shadow-md">
+            <div class=" w-full flex justify-center ">
+
+                <div class="nav w-1/5 mb-5 flex mb-2 justify-between gap-1">
+
+{#                    //left button - year#}
+                    {% if year == minYear %}
+                        <div class="container_btn_left bg-gray-900  w-12 h-8 rounded-l-lg flex   top-0 right-0 justify-center items-center text-white bg-zinc-300 cursor-not-allowed" >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l14 0"></path>
+                                <path d="M5 12l6 6"></path>
+                                <path d="M5 12l6 -6"></path>
+                            </svg>
+                        </div>
+                    {% else %}
+                        <a   class="container_btn_left bg-gray-900  w-12 h-8 rounded-l-lg flex   top-0 right-0 justify-center items-center text-white" href="/src/exo10.php?year={{ year-1 }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l14 0"></path>
+                                <path d="M5 12l6 6"></path>
+                                <path d="M5 12l6 -6"></path>
+                            </svg>
+                        </a>
+                    {% endif %}
+{#                    //end left button - year#}
+
+{#                    //dropdown years container#}
+                    <div  class="dropdownContainer w-full cursor-pointer justify-center items-center   bg-red-500  relative flex  w-full">
+                        <div class=" select-none pointer-events-none  {% if year == currentYear %}  text-red-500 {% endif %} select-none text-xl text-white ">{{ year }}</div>
+                        <div id="dropDownList" class="dropDownList absolute hidden w-full shadow-gray-500 shadow-md rounded-r-md top-8  ">
+                            {% for yearInDropDown in allowedYears %}
+                                <a class=" listYear border border-gray-200 hover:border-red-500 hover:bg-red-500 hover:text-white  bg-white rounded-xs flex justify-center items-center {% if yearInDropDown == currentYear %}  text-red-500 {% endif %} text-black" href="/src/exo10.php?year={{ yearInDropDown }}">{{ yearInDropDown }}</a>
+                            {% endfor %}
+                        </div>
+                        <div class=" arrowDownRight w-6 rounded-lg text-white flex items-center absolute right-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M6 9l6 6l6 -6"></path>
+                            </svg>
+                        </div>
+                    </div>
+{#                    //end dropdown years container#}
+
+{#                    //right button + year#}
+                    {% if year == maxYear %}
+                        <div class="container_btn_right w-12 h-8 rounded-r-lg flex top-0 right-0 justify-center items-center text-white bg-zinc-300 cursor-not-allowed" href="/src/exo10.php?year={{ year+1 }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M5 12l14 0"></path>
+                                <path d="M13 18l6 -6"></path>
+                                <path d="M13 6l6 6"></path>
+                            </svg>
+                        </div>
+                    {% else %}
+                        <a class="container_btn_right bg-gray-900 w-12 h-8 rounded-r-lg flex top-0 right-0 justify-center items-center text-white" href="/src/exo10.php?year={{ year+1 }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M5 12l14 0"></path>
+                            <path d="M13 18l6 -6"></path>
+                            <path d="M13 6l6 6"></path>
+                        </svg>
+                        </a>
+                    {% endif %}
+{#                    //end right button + year#}
+                </div>
+            </div>
+{#            // global container calendar#}
+            <div class=" grid grid-cols-4 gap-5">
+                {% for monthName in monthsNames %}
+                    <div>
+                        <div class="font-bold text-xl border-b border-gray-200">{{ monthName.name }}</div>
+                        <div class="grid  grid-cols-7 gap-x-1.5">
+
+                            {% for dayName in daysNames %}
+                            <div class="{% if dayName in ['Sam','Dim'] %} font-bold {% else %} font-semibold {% endif %}" >{{ dayName }}</div>
+                            {% endfor %}
+                            {% if  monthName.prevmonthdays %}
+                            <div  class=" col-span-{{ monthName.prevmonthdays }}">
+                                  &nbsp
+                            </div>
+                            {% endif %}
+
+                            {% for day in monthName.days %}
+
+                            <div class="  {% if day.numInDay in [0,6] %} bg-gray-200 font-bold  {% elseif day.fullDate == today %} bg-red-500 {% endif %} " >{{ day.dayNumber | date('j') }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+{#            // end global container calendar#}
+        </div>
+        <script src="/src/dropdown.js"></script>
+    </body>
+</html>

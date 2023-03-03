@@ -1,6 +1,6 @@
 <html>
 <head>
-    <link href="/dist/output.css" rel="stylesheet">
+    <link href="/tailwindcss/dist/output.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -24,7 +24,7 @@
                     </svg>
                 </div>
             {% else %}
-                <a   class="container_btn_left bg-gray-900  w-12 h-8 rounded-l-lg flex   top-0 right-0 justify-center items-center text-white" href="/src/exo12.php?year={{ year-1 }}">
+                <a   class="container_btn_left bg-gray-900  w-12 h-8 rounded-l-lg flex   top-0 right-0 justify-center items-center text-white" href="/tailwindcss/src/exo12.php?year={{ year-1 }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M5 12l14 0"></path>
@@ -40,7 +40,7 @@
                 <div class=" select-none pointer-events-none  {% if year == currentYear %}  text-red-500 {% endif %} select-none text-xl text-white ">{{ year }}</div>
                 <div id="dropDownList" class="dropDownList absolute hidden w-full shadow-gray-500 shadow-md rounded-r-md top-8  ">
                     {% for yearInDropDown in allowedYears %}
-                        <a class=" listYear border border-gray-200 hover:border-red-500 hover:bg-red-500 hover:text-white  bg-white rounded-xs flex justify-center items-center {% if yearInDropDown == currentYear %}  text-red-500 {% endif %} text-black" href="/src/exo12.php?year={{ yearInDropDown }}">{{ yearInDropDown }}</a>
+                        <a class=" listYear border border-gray-200 hover:border-red-500 hover:bg-red-500 hover:text-white  bg-white rounded-xs flex justify-center items-center {% if yearInDropDown == currentYear %}  text-red-500 {% endif %} text-black" href="/tailwindcss/src/exo12.php?year={{ yearInDropDown }}">{{ yearInDropDown }}</a>
                     {% endfor %}
                 </div>
                 <div class=" arrowDownRight w-6 rounded-lg text-white flex items-center absolute right-0">
@@ -54,7 +54,7 @@
 
             {#                    //right button + year#}
             {% if year == maxYear %}
-                <div class="container_btn_right w-12 h-8 rounded-r-lg flex top-0 right-0 justify-center items-center text-white bg-zinc-300 cursor-not-allowed" href="/src/exo12.php?year={{ year+1 }}">
+                <div class="container_btn_right w-12 h-8 rounded-r-lg flex top-0 right-0 justify-center items-center text-white bg-zinc-300 cursor-not-allowed" href="/tailwindcss/src/exo12.php?year={{ year+1 }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M5 12l14 0"></path>
@@ -63,7 +63,7 @@
                     </svg>
                 </div>
             {% else %}
-                <a class="container_btn_right bg-gray-900 w-12 h-8 rounded-r-lg flex top-0 right-0 justify-center items-center text-white" href="/src/exo12.php?year={{ year+1 }}">
+                <a class="container_btn_right bg-gray-900 w-12 h-8 rounded-r-lg flex top-0 right-0 justify-center items-center text-white" href="/tailwindcss/src/exo12.php?year={{ year+1 }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                         <path d="M5 12l14 0"></path>
@@ -85,16 +85,13 @@
                     {% for dayName in daysNames %}
                         <div class="{% if dayName in ['Sam','Dim'] %} font-bold {% else %} font-semibold {% endif %}" >{{ dayName }}</div>
                     {% endfor %}
-                    {% for day in monthName.earlierDays %}
-                        <div class="text-gray-400">{{ day.dayNumber | date('j') }}</div>
-                    {% endfor %}
 
-                    {% for day in monthName.days %}
-                        {% if monthName.monthNum == day.MonthDays %}
-                        <div class="  {% if day.numInDay in [0,6] %} bg-gray-200   {% elseif day.fullDate == today %} bg-red-500 {% endif %} " >{{ day.dayNumber | date('j') }}</div>
-                        {% else %}
-                        <div class="text-gray-300">{{ day.dayNumber | date('j') }}</div>
-                        {% endif %}
+                    {% for day in monthName.Days %}
+{#                        {% if monthName.monthNum == day.MonthDays %}#}
+                            <div class=" {% if day.is_weekend %} bg-gray-200 {% endif %} " >{{ day.DaysOnMonth }}</div>
+{#                        {% else %}#}
+{#                            <div class="text-gray-300">{{ day.DaysOnMonth | date('j') }}</div>#}
+{#                        {% endif %}#}
                     {% endfor %}
                 </div>
             </div>

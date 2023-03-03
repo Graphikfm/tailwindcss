@@ -1,4 +1,5 @@
 <?php
+//phpinfo(); die();
 require_once '../vendor/autoload.php';
 
 $loader = new \Twig\Loader\FilesystemLoader('../templates');
@@ -14,7 +15,7 @@ if (strlen($year) !== 4 || !is_numeric($year)){
     throw new Exception('les conditions ne sont pas toutes réunies');
 }
 if ($year > $maxYear || $year < $minYear) {
-    header('Location: /src/exo11.php');
+    header('Location: /tailwindcss/src/exo12.php'); http://localhost/tailwindcss/src/exo12.php
 }
 $daysNames = [
     1=>'Lun',
@@ -39,6 +40,7 @@ $monthsNames = [
     11=>'Novembre',
     12=>'Decembre'
 ];
+$arrayTest = [];
 $month = [];
 $monthprev = [];
 //on crée une boucle foreach sur le [tableau: clé=>mois] des mois qui composent une année. et dans cette boucle on met en evidence la clé qui va parcourir les valeurs['mois'] de celui ci.
@@ -52,31 +54,104 @@ foreach ($monthsNames as $monthNum=>$monthName) {
 //    clone de debut pour le faire devenir la fin
     $fin = clone $debut;
     //pour chaque mois on defini une fin
-    $fin->modify('+ 42 day');
+    $fin->modify('+ 41 day');
 
     //à partir du debut et de la fin, on crée la periode definie pour chaque mois
     $monthRange = new DatePeriod($debut, new DateInterval('P1D'), $fin);
+
+
+
+
+    $debut = $debut->format('y-m-d');
+    $fin = $fin->format('y-m-d');
+
+//var_dump($debut);
+//var_dump($fin);
+
+
+    /* Connexion à une base MySQL avec l'invocation de pilote */
+    $dsn = 'mysql:dbname=calendar;host=localhost:3306';
+    $user = 'root';
+    $password = '';
+
+    $pdo = new \PDO('mysql:dbname=calendar;host=localhost:3306', 'root', '');
+//var_dump($pdo);
+//print_r($pdo);
+//$stmt = $pdo->query('SELECT * FROM calendar ');
+
+
+
+    $stmt = $pdo->prepare('SELECT *,
+       IF (calendar.dim_date.weekDayFlag = "n",1,0)
+            AS is_weekend
+        
+            FROM calendar.dim_date
+            WHERE DateFull
+            BETWEEN :debut
+            AND :fin; '
+    );
+    $stmt->bindParam(':debut',$debut, PDO::PARAM_STR);
+    $stmt->bindParam(':fin',$fin, PDO::PARAM_STR);
+    $stmt->execute();
+
+// return $stmt->fetchAll(PDO::FETCH_ASSOC);
+// var_dump($stmt);
+ $globalDataAarray = $stmt->fetchAll(PDO::FETCH_ASSOC);
+var_dump($globalDataAarray);
+
+// return $stmt->fetchAll(PDO::FETCH_ASSOC);
+// var_dump($stmt);
+
 
     // on vient appeler le tableau instancié en amont à vide et on y place en clé du tableau qui parcours les mois d'une année
     $month[$monthNum] = [
         'name'=>$monthName,
         'prevmonthdays' =>$prevmonthdays,
-        'monthNum'=>$monthNum
+        'monthNum'=>$monthNum,
     ];
 
+
+
 // on crée une boucle qui parcours le tableau periode debut -> fin d'un mois et sa clé $day permet de parcourir tous les jours contenus dans un mois. et cela x12 grace a la premiere boucle des mois d'une année
-    foreach ($monthRange as $day) {
-        $month[$monthNum]['days'][$day->format("Y-m-d")] = [
-            'numInDay' => $day->format('w'),
-            'MonthDays'=>$day->format('m'),
-            'dayNumber'=> $day,
-            'fullDate' => $day,
-            'prevmonthdays' => $prevmonthdays
+    foreach($globalDataAarray as $Days) {
+//var_dump($globalDataAarray);
+//        $Day['DayNumInMonth'];
+        $dataDaysOnYear = $Days['DayNumInMonth'];
+        $dataNameOnDays = $Days['DayAbbrev'];
+        $dataNumDayOfWeek = $Days['DayOfWeek'];
+        $NumOfMonth = $Days['Month'];
+        $yearY = $Days['Year'];
+        $fullDate = $Days['DateFull'];
+        $MonthName = $Days['MonthName'];
+        $IsWeekend = $Days['is_weekend'];
+//        var_dump($dataDaysOnYear);
+//        var_dump($globalDataAarray );
+        $month[$monthNum]['Days'][] = [
+            'DaysOnMonth'=> $dataDaysOnYear,
+            'DayAbbrev'=> $dataNameOnDays,
+            'DayOfWeek'=> $dataNumDayOfWeek,
+            'Month'=> $NumOfMonth,
+            'Year'=> $yearY,
+            'DateFull' => $fullDate,
+            'MonthName'=> $MonthName,
+            'is_weekend'=>$IsWeekend,
         ];
     }
+
 }
+
+
 // fin de ton code
-echo $twig->render('calendar.html.twig', [
+
+
+
+
+
+//    var_dump($globalDataAarray);
+
+// and somewhere later:
+
+echo $twig->render('calendarDimDate.html.twig', [
     'monthsNames' =>$month,
     'monthsprev'=>$monthprev,
     'daysNames'=>$daysNames,
@@ -86,4 +161,5 @@ echo $twig->render('calendar.html.twig', [
     'allowedYears'=> $allowedYears,
     'maxYear'=> $maxYear,
     'minYear'=> $minYear,
+    '$globalDataAarray'=>$globalDataAarray
 ]);

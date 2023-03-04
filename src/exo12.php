@@ -14,7 +14,7 @@ $password = '';
 $pdo = new \PDO('mysql:dbname=calendar;host=localhost:3306;charset=utf8', 'root', '');
 
 $today = new DateTime('today');
-var_dump($today->format('Y-m-d'));
+//var_dump($today->format('Y-m-d'));
 $currentYear = $today->format('Y');
 $year = $_GET['year'] ?? $currentYear;
 $minYear = $currentYear-5;
@@ -41,16 +41,17 @@ foreach ($f as $key ) {
         $monthsNames[] = $value;
     }
 }
-var_dump($monthsNames);
-$arrayTest = [];
+//var_dump($monthsNames);
+
 $month = [];
 $monthprev = [];
 //on crée une boucle foreach sur le [tableau: clé=>mois] des mois qui composent une année. et dans cette boucle on met en evidence la clé qui va parcourir les valeurs['mois'] de celui ci.
 foreach ($monthsNames as $monthNum=>$monthName) {
     //pour chaque mois on defini un debut
+    $monthNum = $monthNum+1;
     $debut = new DateTime($year . '-' . $monthNum . '-01');
     $prevmonthdays = $debut->format('N')-1; // egal à 1 du mois => jour de la semaine en format numerique
-
+//    var_dump($prevmonthdays);
     // valeur finale de debut
     $debut->modify("-" . $prevmonthdays . " day"); // prends la base debut => premier jour du mois d'annee et fait une soustraction de celle ci avec le jour de la semaine
 //    clone de debut pour le faire devenir la fin
@@ -117,7 +118,7 @@ foreach ($monthsNames as $monthNum=>$monthName) {
         $stmt->bindParam(':fin',$fin, PDO::PARAM_STR);
         $stmt->execute();
         $month[$monthNum]["days"] = $stmt->fetchAll(PDO::FETCH_ASSOC);
-var_dump($month[$monthNum]);
+//var_dump($month[$monthNum]);
 }
 // fin de ton code
 

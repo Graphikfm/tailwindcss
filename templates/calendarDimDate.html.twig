@@ -77,20 +77,26 @@
     </div>
     {#            // global container calendar#}
     <div class=" grid grid-cols-4 gap-5">
-        {% for monthName in monthsNames %}
+        {% for month in months %}
             <div>
-                <div class="font-bold text-xl border-b border-gray-200">{{ monthName.name }}</div>
+{#                {{ month.monthNum }}#}
+
+                <div class="font-bold text-xl border-b border-gray-200">{{ month.name }}</div>
                 <div class="grid  grid-cols-7 gap-x-1.5">
 
-                    {% for dayName in daysNames %}
-                        <div class="{% if dayName in ['Sam','Dim'] %} font-bold {% else %} font-semibold {% endif %}" >{{ dayName }}</div>
+                    {% for dayName in month.DaysName %}
+                        <div class="{% if dayName in ['Sam','Dim'] %} font-bold {% else %} font-semibold {% endif %}" >{{ dayName.DayAbbrev }}</div>
                     {% endfor %}
 
-                    {% for day in monthName.Days %}
-{#                        {% if monthName.monthNum == day.MonthDays %}#}
-                            <div class=" {% if day.is_weekend %} bg-gray-200 {% endif %} " >{{ day.DaysOnMonth }}</div>
+                    {% for day in month.days %}
+{#    {{ day.MonthDays }}#}
+                        {% if month.monthNum == day.Month %}
+                            <div class="  {% if day.DateFull == today | date('Y-m-d') %}  bg-red-500 {% elseif day.is_weekend  %} bg-gray-200 {% endif %}" >{{ day.DayNumInMonth }}</div>
+                        {% else %}
+                            <div class=" text-gray-400 {% if day.is_weekend %} bg-gray-100  {% endif %}  " >{{ day.DayNumInMonth }}</div>
+                        {% endif %}
 {#                        {% else %}#}
-{#                            <div class="text-gray-300">{{ day.DaysOnMonth | date('j') }}</div>#}
+{#                            <div class="text-gray-300">{{ day.DaysOnMonth }}</div>#}
 {#                        {% endif %}#}
                     {% endfor %}
                 </div>
@@ -99,6 +105,6 @@
     </div>
     {#            // end global container calendar#}
 </div>
-<script src="/src/dropdown.js"></script>
+<script src="/tailwindcss/src/dropdown.js"></script>
 </body>
 </html>

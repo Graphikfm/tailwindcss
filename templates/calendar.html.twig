@@ -79,17 +79,18 @@
     <div class=" grid grid-cols-4 gap-5">
         {% for monthName in monthsNames %}
             <div>
-                <div class="font-bold text-xl border-b border-gray-200">{{ monthName.name }}</div>
+                <div class="font-bold text-xl border-b border-gray-200">{{ monthName.MonthName }}</div>
                 <div class="grid  grid-cols-7 gap-x-1.5">
-
+{{ monthName.monthNum }}
                     {% for dayName in daysNames %}
                         <div class="{% if dayName in ['Sam','Dim'] %} font-bold {% else %} font-semibold {% endif %}" >{{ dayName }}</div>
                     {% endfor %}
                     {% for day in monthName.earlierDays %}
                         <div class="text-gray-400">{{ day.dayNumber | date('j') }}</div>
                     {% endfor %}
-
+{{ day.MonthDays }}
                     {% for day in monthName.days %}
+                        {{ day.MonthDays }}
                         {% if monthName.monthNum == day.MonthDays %}
                         <div class="  {% if day.numInDay in [0,6] %} bg-gray-200   {% elseif day.fullDate == today %} bg-red-500 {% endif %} " >{{ day.dayNumber | date('j') }}</div>
                         {% else %}
